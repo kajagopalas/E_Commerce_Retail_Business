@@ -1,0 +1,60 @@
+Create Table DimCategory (
+CategoryKey int primary key,
+CategoryName Varchar(50))
+
+---------------------------------------------------------------------------------------------------------------------
+
+Create Table DimSubCategory (
+SubCategoryKey int primary key,
+SubCategoryName Varchar(50),
+CategoryKey int foreign key references DimCategory (CategoryKey))
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Create Table DimProduct (
+ProductKey int primary key,
+ProductSKU varchar(50),
+ProductName varchar(50),
+SubCategoryKey int foreign key references DimSubCategory (SubCategoryKey),
+Color varchar(20))
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Create Table DimCustomer (
+CustomerKey int primary key,
+CustomerID varchar(40),
+CustomerName varchar(40),
+Gender varchar(40),
+GeoKey int foreign key references DimGeography(GeoKey))
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Create Table DimGeography (
+GeoKey int primary key,
+City varchar(20),
+State_Province Varchar(20),
+Country varchar(20),
+PostalCode varchar(20))
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Create Table DateDimension (
+DateKey int primary key,
+FullDate date,
+DayOfWeek varchar(40),
+MonthName varchar(40),
+CalendarQuarter int,
+CalendarYear int)
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Create Table FactSales (
+SalesKey int primary key,
+DateKey int foreign key references DateDimension (DateKey),
+ProductKey int foreign key references DimProduct(ProductKey),
+CustomerKey int foreign key references DimCustomer(CustomerKey),
+OrderNumber varchar(40),
+Quantity int,
+UnitPrice decimal(6,2),
+Revenue decimal(6,2))
+
